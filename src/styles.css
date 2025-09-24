@@ -1,3 +1,182 @@
-h1 {
-    color: blue;
+/* Modern CSS Reset */
+
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+:root {
+  --gradient-start: #3572e0;
+  --gradient-end: #9445f0;
+  --card-bg: rgba(255, 255, 255, 0.15);
+  --text-color: #212529;
+  --primary: #3572e0;
+  --accent: #ff2a85;
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  justify-items: center;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--gradient-start),
+    var(--gradient-end)
+  );
+  color: var(--text-color);
+}
+
+/* Layout */
+
+.form {
+  display: flex;
+  gap: 20px;
+}
+
+
+/* Weather Content */
+.weather-content {
+  min-width: 50%;
+  backdrop-filter: blur(10px);
+  background-color: var(--card-bg);
+}
+
+/* Weather Overview */
+.overview {
+  display: grid;
+  grid-template-areas:
+    'location'
+    'groups';
+  border: 1px solid black;
+}
+
+.location {
+  grid-area: location;
+  justify-self: center;
+  color: var(--color-dark-blue);
+}
+
+.current-temp {
+  color: var(--color-primary-blue);
+}
+
+.feels-like {
+  color: var(--color-mid-blue);
+}
+
+.condition-status {
+  color: var(--color-mid-blue);
+}
+
+.condition-status-icon {
+    font-size: 80px;
+}
+
+.groups {
+  grid-area: groups;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* Weather Details */
+
+.details-left div, .details-right div {
+    border: 1px solid black;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    grid-template-rows: max-content max-content max-content;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.details-left, .details-right {
+    display: grid;
+    row-gap: 16px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.details iconify-icon {
+    font-size: 32px;
+}
+

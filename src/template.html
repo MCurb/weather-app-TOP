@@ -1,14 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-</head>
-<body>
-    <h1>Hey Weather boy</h1>
-    <p class="temp"></p>
-    <p class="feels-like"></p>
-    <p class="icon"></p>
-</body>
+  </head>
+  <body>
+    <form class="form">
+      <input type="search" class="input-search" />
+      <button class="submit-btn">Search</button>
+    </form>
+    <div class="weather-content">
+      <div class="overview">
+        <h2 class="location">Holguin, Cuba</h2>
+        <div class="groups">
+          <div class="overview-left">
+            <p>Now</p>
+            <h1 class="current-temp">25°</h1>
+            <p class="feels-like">Feels like 32°</p>
+          </div>
+          <div class="overview-right">
+            <iconify-icon
+              icon="emojione:cloud-with-lightning-and-rain"
+              class="condition-status-icon"
+            ></iconify-icon>
+            <p class="condition-status">Cloudy</p>
+          </div>
+        </div>
+      </div>
+      <div class="details">
+        <div class="details-left">
+          <div class="wind-container">
+            <iconify-icon icon="wi:strong-wind"></iconify-icon>
+            <p>Wind Speed</p>
+            <p class="wind-data">15km</p>
+          </div>
+          <div class="humidity-container">
+            <iconify-icon icon="wi:humidity"></iconify-icon>
+            <p>Humidity</p>
+            <p class="humidity-data">54.6%</p>
+          </div>
+          <div class="sunrise-container">
+            <iconify-icon icon="wi:horizon-alt"></iconify-icon>
+            <p>Sunrise</p>
+            <p class="sunrise-data">06:54:26</p>
+          </div>
+        </div>
+
+        <div class="details-right">
+          <div class="uv-index-container">
+            <iconify-icon icon="wi:day-sunny"></iconify-icon>
+            <p>UV Index</p>
+            <p class="uv-index-data">9</p>
+          </div>
+          <div class="rain-chance-container">
+            <iconify-icon icon="wi:rain"></iconify-icon>
+            <p>Chance of Rain</p>
+            <p class="rain-chance-data">46.3%</p>
+          </div>
+          <div class="sunset-container">
+            <iconify-icon icon="wi:horizon"></iconify-icon>
+            <p>Sunset</p>
+            <p class="sunset-data">18:59:16</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
