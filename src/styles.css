@@ -76,11 +76,13 @@ h6 {
   isolation: isolate;
 }
 
+/* Custom CSS Rules */
+
 :root {
   --gradient-start: #3572e0;
   --gradient-end: #9445f0;
   --card-bg: rgba(255, 255, 255, 0.15);
-  --text-color: #212529;
+  --text-color: white;
   --primary: #3572e0;
   --accent: #ff2a85;
 }
@@ -108,7 +110,6 @@ body {
   display: flex;
   gap: 20px;
 }
-
 
 /* Weather Content */
 .weather-content {
@@ -145,7 +146,7 @@ body {
 }
 
 .condition-status-icon {
-    font-size: 80px;
+  font-size: 80px;
 }
 
 .groups {
@@ -156,27 +157,28 @@ body {
 
 /* Weather Details */
 
-.details-left div, .details-right div {
-    border: 1px solid black;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    grid-template-rows: max-content max-content max-content;
+.details-left div,
+.details-right div {
+  border: 1px solid black;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  grid-template-rows: max-content max-content max-content;
 }
 
 .details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.details-left, .details-right {
-    display: grid;
-    row-gap: 16px;
-    padding: 16px;
-    box-sizing: border-box;
+.details-left,
+.details-right {
+  display: grid;
+  row-gap: 16px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .details iconify-icon {
-    font-size: 32px;
+  font-size: 32px;
 }
-
