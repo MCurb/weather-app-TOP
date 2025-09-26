@@ -79,49 +79,23 @@ async function takeTheDataINeed() {
 }
 
 export function handleTemperatureToggle() {
-  const newTemp = tempCheckbox.checked
+  currentScale.textContent = tempCheckbox.checked ? '°C' : '°F';
+
+  temp.textContent = tempCheckbox.checked
+    ? `${convertTemperature(temp.dataset.value, 'fahrenheit')}°C`
+    : `${convertTemperature(temp.dataset.value, 'celcius')}°F`;
+
+  feels.textContent = tempCheckbox.checked
+    ? `Feels like: ${convertTemperature(feels.dataset.value, 'fahrenheit')}°C`
+    : `Feels like: ${convertTemperature(feels.dataset.value, 'celcius')}°F`;
+
+  temp.dataset.value = tempCheckbox.checked
     ? convertTemperature(temp.dataset.value, 'fahrenheit')
     : convertTemperature(temp.dataset.value, 'celcius');
 
-  const newFeelsLikeTemp = tempCheckbox.checked
+  feels.dataset.value = tempCheckbox.checked
     ? convertTemperature(feels.dataset.value, 'fahrenheit')
     : convertTemperature(feels.dataset.value, 'celcius');
-
-  const tempToChange = [temp, feels];
-
-  tempToChange.forEach((elem) => {
-    if (!tempCheckbox.checked) {
-      currentScale.textContent = '°F';
-
-      switch (elem) {
-        case temp:
-          temp.textContent = `${newTemp}°F`;
-          temp.dataset.value = newTemp;
-          break;
-        case feels:
-          feels.textContent = `Feels like: ${newFeelsLikeTemp}°F`;
-          feels.dataset.value = newFeelsLikeTemp;
-          break;
-        default:
-          break;
-      }
-      return;
-    }
-    currentScale.textContent = '°C';
-
-    switch (elem) {
-      case temp:
-        temp.textContent = `${newTemp}°C`;
-        temp.dataset.value = newTemp;
-        break;
-      case feels:
-        feels.textContent = `Feels like: ${newFeelsLikeTemp}°C`;
-        feels.dataset.value = newFeelsLikeTemp;
-        break;
-      default:
-        break;
-    }
-  });
 }
 
 function convertTemperature(temp, scale) {
