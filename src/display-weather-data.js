@@ -10,6 +10,7 @@ const locationAddress = document.querySelector('.location');
 const temp = document.querySelector('.current-temp');
 const feels = document.querySelector('.feels-like');
 const condition = document.querySelector('.condition-status');
+const conditionIcon = document.querySelector('.condition-status-icon');
 
 // Weather Details
 const wind = document.querySelector('.wind-data');
@@ -19,18 +20,27 @@ const rain = document.querySelector('.rain-chance-data');
 const sunriseTime = document.querySelector('.sunrise-data');
 const sunsetTime = document.querySelector('.sunset-data');
 
-export async function displayData() {
+async function displayData() {
   const { paths } = await takeTheDataINeed();
 
   //Weather Overview
   locationAddress.textContent = paths.location;
-  temp.textContent = `${paths.temperature}°F`;
-  feels.textContent = `Feels like: ${paths.feelsLike}°F`;
+  temp.textContent = tempCheckbox.checked
+    ? `${convertTemperature(paths.temperature, 'fahrenheit')}°C`
+    : `${paths.temperature}°F`;
+  feels.textContent = tempCheckbox.checked
+    ? `Feels like: ${convertTemperature(paths.feelsLike, 'fahrenheit')}°C`
+    : `Feels like: ${paths.feelsLike}°F`;
   condition.textContent = paths.conditionStatus;
+  conditionIcon.icon = findCorrectIcon(paths.conditionsIcon);
 
   // Make temp values to be data values
-  temp.dataset.value = paths.temperature;
-  feels.dataset.value = paths.feelsLike;
+  temp.dataset.value = tempCheckbox.checked
+    ? convertTemperature(paths.temperature, 'fahrenheit')
+    : paths.temperature;
+  feels.dataset.value = tempCheckbox.checked
+    ? convertTemperature(paths.feelsLike, 'fahrenheit')
+    : paths.feelsLike;
 
   //Weather Details
   wind.textContent = `${paths.windSpeed} mph`;
@@ -55,6 +65,7 @@ async function takeTheDataINeed() {
     temperature: currentConditions.temp,
     feelsLike: currentConditions.feelslike,
     conditionStatus: currentConditions.conditions,
+    conditionsIcon: currentConditions.icon,
     windSpeed: currentConditions.windspeed,
     uvIndex: currentConditions.uvindex,
     humidity: currentConditions.humidity,
@@ -115,10 +126,34 @@ export function handleTemperatureToggle() {
 
 function convertTemperature(temp, scale) {
   if (scale === 'fahrenheit') {
-    const newTemp = (temp - 32) / 1.8;
+    const newTemp = Math.floor((temp - 32) / 1.8);
     return newTemp;
   } else if (scale === 'celcius') {
-    const newTemp = temp * 1.8 + 32;
+    const newTemp = Math.floor(temp * 1.8 + 32);
     return newTemp;
   }
+}
+
+function findCorrectIcon(icon) {
+  const simpleIcons = {
+    'clear-day': 'emojione:sun',
+    'clear-night': 'emojione:full-moon',
+    'partly-cloudy-day': 'emojione:sun-behind-cloud',
+    'partly-cloudy-night': 'emojione:cloud',
+    cloudy: 'emojione:cloud',
+    rain: 'emojione:cloud-with-rain',
+    'showers-day': 'emojione:sun-behind-rain-cloud',
+    'showers-night': 'emojione:cloud-with-rain',
+    snow: 'emojione:cloud-with-snow',
+    sleet: 'emojione:cloud-with-snow',
+    hail: 'emojione:cloud-with-snow',
+    fog: 'emojione:fog',
+    wind: 'emojione:leaf-fluttering-in-wind',
+    'thunder-rain': 'emojione:cloud-with-lightning-and-rain',
+    'thunder-showers-day': 'emojione:cloud-with-lightning-and-rain',
+    'thunder-showers-night': 'emojione:cloud-with-lightning-and-rain',
+  };
+  const iconPath = simpleIcons[icon] || 'emojione:zzz';
+
+  return iconPath;
 }
