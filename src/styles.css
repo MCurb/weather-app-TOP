@@ -136,7 +136,7 @@ body {
 .submit-btn {
   display: flex;
   color: white;
-  background-color: var(--primary);
+  background-color: #3A86FF;
   padding: 16px;
   border-radius: 50px;
   border: none;
@@ -145,12 +145,91 @@ body {
 
 .submit-btn:hover {
   cursor: pointer;
-  background-color: hsla(240, 78%, 60%, 0.843);
+  background-color: hsla(0, 0%, 100%, 0.28);
 }
 
 .submit-btn:active {
   transform: scale(0.8);
 }
+
+.temperature-scale {
+  display: grid;
+  grid-auto-flow: column;
+  place-items: center;
+  column-gap: 8px;
+  background-color: rgb(3, 3, 41);
+  padding: 4px 12px;
+  border-radius: 25px;
+  width: max-content;
+  backdrop-filter: blur(20px);
+  background-color: var(--card-bg);
+}
+
+/* Toggle Switch */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+}
+
+/* Hide Default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 100%, 0.45);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: hsla(0, 0%, 100%, 0.25);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 25px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
 
 /* Weather Content */
 .weather-card {
@@ -158,13 +237,16 @@ body {
   border-radius: 25px;
   display: grid;
   grid-template-rows: max-content 1fr;
+  grid-template-columns: max-content max-content;
   row-gap: 20px;
+  column-gap: 20px;
   /* backdrop-filter: blur(10px);
   background-color: var(--card-bg); */
 }
 
 /* Weather Overview */
 .overview {
+  grid-area: 2 / 1 / 3 / 3;
   display: grid;
   grid-template-areas:
     'location'
@@ -245,6 +327,7 @@ body {
 }
 
 .details {
+  grid-area: 3 / 1 / 4 / 3;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 16px;

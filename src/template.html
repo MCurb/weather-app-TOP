@@ -6,13 +6,20 @@
     <title>Weather App</title>
   </head>
   <body>
-    <div class="weather-card">
+    <div class="weather-card"> <div class="temperature-scale">
+        <label class="switch">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+        <p>°F</p>
+      </div>
       <form class="form">
         <input type="search" class="input-search" />
         <button class="submit-btn">
           <iconify-icon icon="ooui:search"></iconify-icon>
         </button>
       </form>
+     
 
       <div class="overview">
         <h2 class="location">Holguin, Cuba</h2>
