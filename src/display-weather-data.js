@@ -2,6 +2,9 @@ import { getWeatherData } from './get-weather-data';
 const inputSearch = document.querySelector('.input-search');
 let locationSearch = 'Holguin Cuba';
 
+const tempCheckbox = document.querySelector('.temp-checkbox');
+const currentScale = document.querySelector('.current-scale');
+
 // Weather Overview
 const locationAddress = document.querySelector('.location');
 const temp = document.querySelector('.current-temp');
@@ -29,6 +32,9 @@ export async function displayData() {
   rain.textContent = `${paths.rainChance}%`;
   sunriseTime.textContent = paths.sunrise;
   sunsetTime.textContent = paths.sunset;
+
+  temp.dataset.value = paths.temperature;
+  feels.dataset.value = paths.feelsLike;
 }
 
 export function handleFormData(e) {
@@ -55,4 +61,40 @@ async function takeTheDataINeed() {
   return {
     paths,
   };
+}
+
+export function handleTemperatureToggle() {
+  const newTemp = tempCheckbox.checked
+    ? convertTemperature(temp.dataset.value, 'fahrenheit')
+    : convertTemperature(temp.dataset.value, 'celcius');
+
+  const newFeelsLikeTemp = tempCheckbox.checked
+    ? convertTemperature(feels.dataset.value, 'fahrenheit')
+    : convertTemperature(feels.dataset.value, 'celcius');
+
+  if (tempCheckbox.checked) {
+    temp.textContent = `${newTemp}°C`;
+    feels.textContent = `Feels like: ${newFeelsLikeTemp}°C`;
+    currentScale.textContent = '°C';
+
+    temp.dataset.value = newTemp;
+    feels.dataset.value = newFeelsLikeTemp;
+  } else {
+    temp.textContent = `${newTemp}°F`;
+    feels.textContent = `Feels like: ${newFeelsLikeTemp}°F`;
+    currentScale.textContent = '°F';
+
+    temp.dataset.value = newTemp;
+    feels.dataset.value = newFeelsLikeTemp;
+  }
+}
+
+function convertTemperature(temp, scale) {
+  if (scale === 'fahrenheit') {
+    const newTemp = (temp - 32) / 1.8;
+    return newTemp;
+  } else if (scale === 'celcius') {
+    const newTemp = temp * 1.8 + 32;
+    return newTemp;
+  }
 }

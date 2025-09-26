@@ -6,12 +6,13 @@
     <title>Weather App</title>
   </head>
   <body>
-    <div class="weather-card"> <div class="temperature-scale">
+    <div class="weather-card">
+      <div class="temperature-scale">
         <label class="switch">
-          <input type="checkbox" />
+          <input type="checkbox" class="temp-checkbox" />
           <span class="slider round"></span>
         </label>
-        <p>°F</p>
+        <p class="current-scale">°F</p>
       </div>
       <form class="form">
         <input type="search" class="input-search" />
@@ -19,15 +20,14 @@
           <iconify-icon icon="ooui:search"></iconify-icon>
         </button>
       </form>
-     
 
       <div class="overview">
         <h2 class="location">Holguin, Cuba</h2>
         <div class="groups">
           <div class="overview-left">
             <p class="now-text">Now</p>
-            <h1 class="current-temp">25°</h1>
-            <p class="feels-like">Feels like 32°</p>
+            <h1 class="current-temp" data-value="104">104°</h1>
+            <p class="feels-like" data-value="110">Feels like 110°</p>
           </div>
           <div class="overview-right">
             <iconify-icon
