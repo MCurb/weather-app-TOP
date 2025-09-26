@@ -22,19 +22,23 @@ const sunsetTime = document.querySelector('.sunset-data');
 export async function displayData() {
   const { paths } = await takeTheDataINeed();
 
+  //Weather Overview
   locationAddress.textContent = paths.location;
   temp.textContent = `${paths.temperature}°F`;
   feels.textContent = `Feels like: ${paths.feelsLike}°F`;
   condition.textContent = paths.conditionStatus;
+
+  // Make temp values to be data values
+  temp.dataset.value = paths.temperature;
+  feels.dataset.value = paths.feelsLike;
+
+  //Weather Details
   wind.textContent = `${paths.windSpeed} mph`;
   uv.textContent = paths.uvIndex;
   humidityData.textContent = `${paths.humidity}%`;
   rain.textContent = `${paths.rainChance}%`;
   sunriseTime.textContent = paths.sunrise;
   sunsetTime.textContent = paths.sunset;
-
-  temp.dataset.value = paths.temperature;
-  feels.dataset.value = paths.feelsLike;
 }
 
 export function handleFormData(e) {
@@ -72,21 +76,41 @@ export function handleTemperatureToggle() {
     ? convertTemperature(feels.dataset.value, 'fahrenheit')
     : convertTemperature(feels.dataset.value, 'celcius');
 
-  if (tempCheckbox.checked) {
-    temp.textContent = `${newTemp}°C`;
-    feels.textContent = `Feels like: ${newFeelsLikeTemp}°C`;
+  const tempToChange = [temp, feels];
+
+  tempToChange.forEach((elem) => {
+    if (!tempCheckbox.checked) {
+      currentScale.textContent = '°F';
+
+      switch (elem) {
+        case temp:
+          temp.textContent = `${newTemp}°F`;
+          temp.dataset.value = newTemp;
+          break;
+        case feels:
+          feels.textContent = `Feels like: ${newFeelsLikeTemp}°F`;
+          feels.dataset.value = newFeelsLikeTemp;
+          break;
+        default:
+          break;
+      }
+      return;
+    }
     currentScale.textContent = '°C';
 
-    temp.dataset.value = newTemp;
-    feels.dataset.value = newFeelsLikeTemp;
-  } else {
-    temp.textContent = `${newTemp}°F`;
-    feels.textContent = `Feels like: ${newFeelsLikeTemp}°F`;
-    currentScale.textContent = '°F';
-
-    temp.dataset.value = newTemp;
-    feels.dataset.value = newFeelsLikeTemp;
-  }
+    switch (elem) {
+      case temp:
+        temp.textContent = `${newTemp}°C`;
+        temp.dataset.value = newTemp;
+        break;
+      case feels:
+        feels.textContent = `Feels like: ${newFeelsLikeTemp}°C`;
+        feels.dataset.value = newFeelsLikeTemp;
+        break;
+      default:
+        break;
+    }
+  });
 }
 
 function convertTemperature(temp, scale) {
