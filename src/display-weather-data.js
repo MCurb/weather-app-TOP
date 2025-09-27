@@ -25,22 +25,12 @@ async function displayData() {
 
   //Weather Overview
   locationAddress.textContent = paths.location;
-  temp.textContent = tempCheckbox.checked
-    ? `${convertTemperature(paths.temperature, 'fahrenheit')}°C`
-    : `${paths.temperature}°F`;
-  feels.textContent = tempCheckbox.checked
-    ? `Feels like: ${convertTemperature(paths.feelsLike, 'fahrenheit')}°C`
-    : `Feels like: ${paths.feelsLike}°F`;
+
+  convertTemp(paths.temperature, 'fahrenheit', 'do-not-convert');
+  convertFeelsLike(paths.feelsLike, 'fahrenheit', 'do-not-convert');
+
   condition.textContent = paths.conditionStatus;
   conditionIcon.icon = findCorrectIcon(paths.conditionsIcon);
-
-  // Make temp values to be data values
-  temp.dataset.value = tempCheckbox.checked
-    ? convertTemperature(paths.temperature, 'fahrenheit')
-    : paths.temperature;
-  feels.dataset.value = tempCheckbox.checked
-    ? convertTemperature(paths.feelsLike, 'fahrenheit')
-    : paths.feelsLike;
 
   //Weather Details
   wind.textContent = `${paths.windSpeed} mph`;
@@ -81,21 +71,9 @@ async function takeTheDataINeed() {
 export function handleTemperatureToggle() {
   currentScale.textContent = tempCheckbox.checked ? '°C' : '°F';
 
-  temp.textContent = tempCheckbox.checked
-    ? `${convertTemperature(temp.dataset.value, 'fahrenheit')}°C`
-    : `${convertTemperature(temp.dataset.value, 'celcius')}°F`;
+  convertTemp(temp.dataset.value, 'fahrenheit', 'celcius');
 
-  feels.textContent = tempCheckbox.checked
-    ? `Feels like: ${convertTemperature(feels.dataset.value, 'fahrenheit')}°C`
-    : `Feels like: ${convertTemperature(feels.dataset.value, 'celcius')}°F`;
-
-  temp.dataset.value = tempCheckbox.checked
-    ? convertTemperature(temp.dataset.value, 'fahrenheit')
-    : convertTemperature(temp.dataset.value, 'celcius');
-
-  feels.dataset.value = tempCheckbox.checked
-    ? convertTemperature(feels.dataset.value, 'fahrenheit')
-    : convertTemperature(feels.dataset.value, 'celcius');
+  convertFeelsLike(feels.dataset.value, 'fahrenheit', 'celcius');
 }
 
 function convertTemperature(temp, scale) {
@@ -105,7 +83,30 @@ function convertTemperature(temp, scale) {
   } else if (scale === 'celcius') {
     const newTemp = Math.floor(temp * 1.8 + 32);
     return newTemp;
+  } else if (scale === 'do-not-convert') {
+    const newTemp = temp;
+    return newTemp;
   }
+}
+
+function convertTemp(value, scaleIfTrue, scaleIfFalse) {
+  temp.textContent = tempCheckbox.checked
+    ? `${convertTemperature(value, scaleIfTrue)}°C`
+    : `${convertTemperature(value, scaleIfFalse)}°F`;
+
+  temp.dataset.value = tempCheckbox.checked
+    ? convertTemperature(value, scaleIfTrue)
+    : convertTemperature(value, scaleIfFalse);
+}
+
+function convertFeelsLike(value, scaleIfTrue, scaleIfFalse) {
+  feels.textContent = tempCheckbox.checked
+    ? `Feels like: ${convertTemperature(value, scaleIfTrue)}°C`
+    : `Feels like: ${convertTemperature(value, scaleIfFalse)}°F`;
+
+  feels.dataset.value = tempCheckbox.checked
+    ? convertTemperature(value, scaleIfTrue)
+    : convertTemperature(value, scaleIfFalse);
 }
 
 function findCorrectIcon(icon) {
