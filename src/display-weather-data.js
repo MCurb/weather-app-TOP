@@ -5,7 +5,11 @@ let locationSearch = 'Holguin Cuba';
 const tempCheckbox = document.querySelector('.temp-checkbox');
 const currentScale = document.querySelector('.current-scale');
 
+const body = document.querySelector('body');
+const errorMsg = document.querySelector('.error-msg');
+
 // Weather Overview
+const overviewContainer = document.querySelector('.overview');
 const locationAddress = document.querySelector('.location');
 const temp = document.querySelector('.current-temp');
 const feels = document.querySelector('.feels-like');
@@ -13,6 +17,7 @@ const condition = document.querySelector('.condition-status');
 const conditionIcon = document.querySelector('.condition-status-icon');
 
 // Weather Details
+const detailsContainer = document.querySelector('.details');
 const wind = document.querySelector('.wind-data');
 const uv = document.querySelector('.uv-index-data');
 const humidityData = document.querySelector('.humidity-data');
@@ -22,6 +27,13 @@ const sunsetTime = document.querySelector('.sunset-data');
 
 async function displayData() {
   const { paths } = await takeTheDataINeed();
+
+  if (paths.error) {
+    toggleErrorMsg(true);
+    return;
+  }
+
+  toggleErrorMsg(false);
 
   //Weather Overview
   locationAddress.textContent = paths.location;
@@ -49,6 +61,12 @@ export function handleFormData(e) {
 
 async function takeTheDataINeed() {
   const jsonData = await getWeatherData(locationSearch);
+  if (jsonData === undefined) {
+    const paths = {
+      error: true,
+    };
+    return { paths };
+  }
   const currentConditions = jsonData.currentConditions;
   const paths = {
     location: jsonData.resolvedAddress,
@@ -62,6 +80,7 @@ async function takeTheDataINeed() {
     rainChance: currentConditions.precipprob,
     sunrise: currentConditions.sunrise,
     sunset: currentConditions.sunset,
+    error: false,
   };
   return {
     paths,
@@ -131,4 +150,13 @@ function findCorrectIcon(icon) {
   const iconPath = simpleIcons[icon] || 'emojione:zzz';
 
   return iconPath;
+}
+
+function toggleErrorMsg(boolean) {
+  errorMsg.style.display = boolean ? 'block' : 'none';
+
+  overviewContainer.style.display = boolean ? 'none' : 'grid';
+  detailsContainer.style.display = boolean ? 'none' : 'grid';
+
+  body.style.alignItems = boolean ? 'start' : 'center';
 }

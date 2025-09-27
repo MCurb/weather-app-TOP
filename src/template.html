@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-    <link rel="icon" type="image/x-icon" href="./images/clouds-and-sun.png">
+    <link rel="icon" type="image/x-icon" href="./images/clouds-and-sun.png" />
   </head>
   <body>
     <div class="weather-card">
+      <!-- Search Bar section -->
       <div class="temperature-scale">
         <label class="switch">
           <input type="checkbox" class="temp-checkbox" />
@@ -16,12 +17,15 @@
         <p class="current-scale">°F</p>
       </div>
       <form class="form">
-        <input type="search" class="input-search" />
+        <input type="search" class="input-search" placeholder="Enter city name" />
         <button class="submit-btn">
           <iconify-icon icon="ooui:search"></iconify-icon>
         </button>
       </form>
 
+      <h2 class="error-msg">Location not found: Try searching again!</h2>
+
+      <!-- Weather Overview -->
       <div class="overview">
         <h2 class="location">Holguin, Cuba</h2>
         <div class="groups">
@@ -39,6 +43,8 @@
           </div>
         </div>
       </div>
+
+      <!-- Weather Details -->
       <div class="details">
         <div class="details-left">
           <div class="wind-container">
