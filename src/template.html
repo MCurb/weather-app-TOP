@@ -17,11 +17,22 @@
         <p class="current-scale">°F</p>
       </div>
       <form class="form">
-        <input type="search" class="input-search" placeholder="Enter city name" />
+        <input
+          type="search"
+          class="input-search"
+          placeholder="Enter city name"
+        />
         <button class="submit-btn">
           <iconify-icon icon="ooui:search"></iconify-icon>
         </button>
       </form>
+      <div class="loading-container">
+        <iconify-icon
+          icon="svg-spinners:tadpole"
+          class="loading-icon"
+        ></iconify-icon>
+        <p class="loading-text">Loading weather data...</p>
+      </div>
 
       <h2 class="error-msg">Location not found: Try searching again!</h2>
 

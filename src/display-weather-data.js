@@ -7,6 +7,7 @@ const currentScale = document.querySelector('.current-scale');
 
 const body = document.querySelector('body');
 const errorMsg = document.querySelector('.error-msg');
+const loadingContainer = document.querySelector('.loading-container');
 
 // Weather Overview
 const overviewContainer = document.querySelector('.overview');
@@ -26,7 +27,9 @@ const sunriseTime = document.querySelector('.sunrise-data');
 const sunsetTime = document.querySelector('.sunset-data');
 
 async function displayData() {
+  toggleLoadingSpinner(true);
   const { paths } = await takeTheDataINeed();
+  toggleLoadingSpinner(false);
 
   if (paths.error) {
     toggleErrorMsg(true);
@@ -155,6 +158,16 @@ function findCorrectIcon(icon) {
 function toggleErrorMsg(boolean) {
   errorMsg.style.display = boolean ? 'block' : 'none';
 
+  togglePageSections(boolean);
+}
+
+function toggleLoadingSpinner(stillWating) {
+  loadingContainer.style.display = stillWating ? 'grid' : 'none';
+
+  togglePageSections(stillWating);
+}
+
+function togglePageSections(boolean) {
   overviewContainer.style.display = boolean ? 'none' : 'grid';
   detailsContainer.style.display = boolean ? 'none' : 'grid';
 
