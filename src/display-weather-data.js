@@ -78,10 +78,10 @@ export function handleTemperatureToggle() {
 
 function convertTemperature(temp, scale) {
   if (scale === 'fahrenheit') {
-    const newTemp = Math.floor((temp - 32) / 1.8);
+    const newTemp = Math.round((temp - 32) / 1.8);
     return newTemp;
   } else if (scale === 'celcius') {
-    const newTemp = Math.floor(temp * 1.8 + 32);
+    const newTemp = Math.round(temp * 1.8 + 32);
     return newTemp;
   } else if (scale === 'do-not-convert') {
     const newTemp = temp;
