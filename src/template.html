@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="weather-card">
-      <!-- Search Bar section -->
+      <!-- Search Bar and temp toggler section -->
       <div class="temperature-scale">
         <label class="switch">
           <input type="checkbox" class="temp-checkbox" />
@@ -26,6 +26,7 @@
           <iconify-icon icon="ooui:search"></iconify-icon>
         </button>
       </form>
+      <!-- Display none by default -->
       <div class="loading-container">
         <iconify-icon
           icon="svg-spinners:tadpole"
@@ -33,10 +34,9 @@
         ></iconify-icon>
         <p class="loading-text">Loading weather data...</p>
       </div>
-
       <h2 class="error-msg">Location not found: Try searching again!</h2>
 
-      <!-- Weather Overview -->
+      <!-- Weather Overview Section-->
       <div class="overview">
         <h2 class="location">Holguin, Cuba</h2>
         <div class="groups">
@@ -55,8 +55,10 @@
         </div>
       </div>
 
-      <!-- Weather Details -->
+      <!-- Weather Details Section-->
       <div class="details">
+
+        <!-- Details Groups -->
         <div class="details-left">
           <div class="wind-container">
             <iconify-icon icon="wi:strong-wind"></iconify-icon>
