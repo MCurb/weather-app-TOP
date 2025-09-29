@@ -79,50 +79,79 @@ h6 {
 /* Custom CSS Rules */
 
 :root {
+  /* Background gradients */
   --gradient-start: #3572e0;
   --gradient-end: #9445f0;
+
+  /* Base overlays */
+  --overlay-weak: hsla(0, 0%, 100%, 0.12);
+  --overlay-medium: hsla(0, 0%, 100%, 0.26);
+  --overlay-strong: hsla(0, 0%, 100%, 0.45);
+
+  /* Cards */
   --card-bg: rgba(255, 255, 255, 0.15);
-  --text-color: white;
-  --primary: #2323e4d7;
-  --accent: #ff2a85;
+  --card-bg-hover: var(--overlay-weak);
+
+  /* Text */
+  --text-color: #ffffff;
+
+  /* Inputs */
+  --input-focus: var(--overlay-weak);
+
+  /* Buttons */
+  --btn-submit: #3a86ff;
+  --btn-submit-hover: var(--overlay-medium);
+
+  /* Slider / toggle */
+  --slider-bg: var(--overlay-strong);
+  --slider-checked: var(--overlay-medium);
+
+  /* Base font size */
+  --font-lg: 1.25rem; /* 20px - emphasis */
+  --font-xl: 1.5rem; /* 24px - headings */
+  --font-xxl: 2rem; /* 32px - big numbers like temperature */
+
+    /* Extra large for weather app */
+  --font-hero: 2.5rem;  /* 40px - key headings/conditions */
+  --font-display: 5.25rem; /* 84px - main temperature */
 }
 
 html {
-  height: 100vh;
+  height: 110vh;
 }
 
 body {
   display: grid;
   justify-content: center;
   align-items: center;
-  padding-top: 52px;
   height: 100%;
+  padding-top: 3.25rem;
+  font-size: 1.125rem;
+  color: var(--text-color);
   background: linear-gradient(
     135deg,
     var(--gradient-start),
     var(--gradient-end)
   );
-  color: var(--text-color);
-  font-size: 18px;
 }
 
 /* Layout */
 
 .form {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
 }
 
 /* Search Bar */
 .input-search {
+  flex: 1;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0 1rem 0 1rem;
+  font-size: var(--font-lg);
+  color: var(--text-color);
   backdrop-filter: blur(20px);
   background-color: var(--card-bg);
-  border: none;
-  border-radius: 25px;
-  flex: 1;
-  padding: 0 16px 0 16px;
-  color: white;
-  font-size: 20px;
   transition: all 0.35s ease;
 }
 
@@ -131,7 +160,7 @@ body {
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-  background-color: hsla(0, 0%, 100%, 0.12);
+  background-color: var(--input-focus);
 }
 
 input::placeholder {
@@ -140,17 +169,17 @@ input::placeholder {
 
 .submit-btn {
   display: flex;
-  color: white;
-  background-color: #3a86ff;
-  padding: 16px;
-  border-radius: 50px;
   border: none;
+  border-radius: 50px;
+  padding: 1rem;
+  color: var(--text-color);
+  background-color: var(--btn-submit);
   transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
+  background-color: var(--btn-submit-hover);
   cursor: pointer;
-  background-color: hsla(0, 0%, 100%, 0.28);
 }
 
 .submit-btn:active {
@@ -161,11 +190,12 @@ input::placeholder {
   display: grid;
   grid-auto-flow: column;
   place-items: center;
-  column-gap: 8px;
-  background-color: rgb(3, 3, 41);
-  padding: 4px 12px;
-  border-radius: 25px;
+  column-gap: 0.5rem;
+
   width: max-content;
+  border-radius: 1.5rem;
+  padding: 0.25rem 0.75rem;
+
   backdrop-filter: blur(20px);
   background-color: var(--card-bg);
 }
@@ -175,48 +205,47 @@ input::placeholder {
 .switch {
   position: relative;
   display: inline-block;
-  width: 56px;
-  height: 30px;
+  width: 3.5rem;
+  height: 1.875rem;
 }
 
 /* Hide Default checkbox */
 .switch input {
-  opacity: 0;
   width: 0;
   height: 0;
+  opacity: 0;
 }
 
 /* The slider */
 .slider {
   position: absolute;
-  cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: hsla(0, 0%, 100%, 0.45);
+
+  background-color: var(--slider-bg);
   -webkit-transition: 0.4s;
   transition: 0.4s;
+  cursor: pointer;
 }
 
 .slider:before {
   position: absolute;
   content: '';
-  height: 22px;
-  width: 22px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
+  left: 0.25rem;
+  bottom: 0.25rem;
+
+  height: 1.375rem;
+  width: 1.375rem;
+
+  background-color: var(--text-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: hsla(0, 0%, 100%, 0.25);
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  background-color: var(--slider-checked);
 }
 
 input:checked + .slider:before {
@@ -227,7 +256,7 @@ input:checked + .slider:before {
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 25px;
+  border-radius: 1.5rem;
 }
 
 .slider.round:before {
@@ -236,15 +265,10 @@ input:checked + .slider:before {
 
 /* Weather Content */
 .weather-card {
-  min-width: 40%;
-  border-radius: 25px;
   display: grid;
   grid-template-rows: max-content 1fr;
   grid-template-columns: max-content max-content;
-  row-gap: 20px;
-  column-gap: 20px;
-  /* backdrop-filter: blur(10px);
-  background-color: var(--card-bg); */
+  gap: 1.25rem;
 }
 
 .error-msg {
@@ -254,10 +278,10 @@ input:checked + .slider:before {
 
 .loading-container {
   grid-area: 2 / 1 / 3 / 3;
-  font-size: 24px;
   display: none;
   justify-content: center;
-  row-gap: 12px;
+  row-gap: 0.75rem;
+  font-size: var(--font-xl);
 }
 
 /* Weather Overview */
@@ -267,40 +291,31 @@ input:checked + .slider:before {
   grid-template-areas:
     'location'
     'groups';
-  row-gap: 20px;
-  /* border: 1px solid black; */
+  row-gap: 1.25rem;
 }
 
 .location {
   grid-area: location;
   justify-self: center;
-  color: var(--color-dark-blue);
-  font-size: 32px;
+  font-size: var(--font-xxl);
 }
 
 .now-text {
-  font-size: 24px;
+  font-size: var(--font-xl);
   font-weight: 600;
 }
 
 .current-temp {
-  color: var(--color-primary-blue);
-  font-size: 40px;
   margin-bottom: -8px;
+  font-size: var(--font-hero);
 }
 
-.feels-like {
-  color: var(--color-mid-blue);
-  font-size: 20px;
-}
-
-.condition-status {
-  color: var(--color-mid-blue);
-  font-size: 20px;
+.feels-like, .condition-status {
+  font-size: var(--font-lg);
 }
 
 .condition-status-icon {
-  font-size: 84px;
+  font-size: var(--font-display);
 }
 
 .groups {
@@ -323,38 +338,35 @@ input:checked + .slider:before {
 /* Weather Details */
 
 .details div div {
-  /* border: 1px solid black; */
-  border-radius: 12px;
-  padding: 8px;
   display: grid;
   place-items: center;
-  grid-template-rows: max-content max-content max-content;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
   background-color: var(--card-bg);
   transition: all 0.3s ease;
 }
 
 .details div div:hover {
-  cursor: pointer;
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  background-color: hsla(0, 0%, 100%, 0.13);
+  background-color: var(--card-bg-hover);
   transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .details {
   grid-area: 3 / 1 / 4 / 3;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 16px;
+  column-gap: 1rem;
 }
 
 .details-left,
 .details-right {
   display: grid;
-  row-gap: 16px;
-  padding: 16px;
-  box-sizing: border-box;
+  row-gap: 1rem;
+  padding: 1rem;
 }
 
 .details-left {
@@ -366,5 +378,5 @@ input:checked + .slider:before {
 }
 
 .details iconify-icon {
-  font-size: 32px;
+  font-size: var(--font-xxl);
 }
