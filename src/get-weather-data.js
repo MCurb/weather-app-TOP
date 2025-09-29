@@ -1,4 +1,41 @@
-export async function getWeatherData(location) {
+// ========================
+// PUBLIC API (exports)
+// ========================
+
+export async function takeTheDataINeed(locationSearch) {
+  const jsonData = await getWeatherData(locationSearch);
+  if (jsonData === undefined) {
+    const paths = {
+      error: true,
+    };
+    return { paths };
+  }
+  const currentConditions = jsonData.currentConditions;
+  const paths = {
+    location: jsonData.resolvedAddress,
+    temperature: currentConditions.temp,
+    feelsLike: currentConditions.feelslike,
+    conditionStatus: currentConditions.conditions,
+    conditionsIcon: currentConditions.icon,
+    windSpeed: currentConditions.windspeed,
+    uvIndex: currentConditions.uvindex,
+    humidity: currentConditions.humidity,
+    rainChance: currentConditions.precipprob,
+    sunrise: currentConditions.sunrise,
+    sunset: currentConditions.sunset,
+    error: false,
+  };
+  return {
+    paths,
+  };
+}
+
+// ========================
+// PRIVATE HELPERS
+// ========================
+
+// Fetch weather data from the API
+async function getWeatherData(location) {
   try {
     const encodedLocation = encodeLocation(location);
     const data = await fetch(
@@ -14,6 +51,7 @@ export async function getWeatherData(location) {
   }
 }
 
+// Encode URI component to handle spaces and special characters
 function encodeLocation(locationSearch) {
   const encodedLocation = decodeURIComponent(locationSearch);
   return encodedLocation;

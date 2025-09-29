@@ -1,11 +1,21 @@
-import { getWeatherData } from './get-weather-data';
-const inputSearch = document.querySelector('.input-search');
+import { takeTheDataINeed } from './get-weather-data';
+
+// ========================
+// MODULE STATE
+// ========================
 let locationSearch = 'Holguin Cuba';
+
+// ========================
+// DOM REFERENCES
+// ========================
+const body = document.querySelector('body');
+
+const form = document.querySelector('.form');
+const inputSearch = document.querySelector('.input-search');
 
 const tempCheckbox = document.querySelector('.temp-checkbox');
 const currentScale = document.querySelector('.current-scale');
 
-const body = document.querySelector('body');
 const errorMsg = document.querySelector('.error-msg');
 const loadingContainer = document.querySelector('.loading-container');
 
@@ -26,9 +36,13 @@ const rain = document.querySelector('.rain-chance-data');
 const sunriseTime = document.querySelector('.sunrise-data');
 const sunsetTime = document.querySelector('.sunset-data');
 
-async function displayData() {
+// ========================
+// PUBLIC API (exports)
+// ========================
+
+export async function displayData() {
   toggleLoadingSpinner(true);
-  const { paths } = await takeTheDataINeed();
+  const { paths } = await takeTheDataINeed(locationSearch);
   toggleLoadingSpinner(false);
 
   if (paths.error) {
@@ -56,41 +70,23 @@ async function displayData() {
   sunsetTime.textContent = paths.sunset;
 }
 
-export function handleFormData(e) {
+export function setupAppListeners() {
+  form.addEventListener('submit', handleFormData);
+
+  tempCheckbox.addEventListener('click', handleTemperatureToggle);
+}
+
+// ========================
+// EVENT HANDLERS
+// ========================
+
+function handleFormData(e) {
   e.preventDefault();
   locationSearch = inputSearch.value;
   displayData();
 }
 
-async function takeTheDataINeed() {
-  const jsonData = await getWeatherData(locationSearch);
-  if (jsonData === undefined) {
-    const paths = {
-      error: true,
-    };
-    return { paths };
-  }
-  const currentConditions = jsonData.currentConditions;
-  const paths = {
-    location: jsonData.resolvedAddress,
-    temperature: currentConditions.temp,
-    feelsLike: currentConditions.feelslike,
-    conditionStatus: currentConditions.conditions,
-    conditionsIcon: currentConditions.icon,
-    windSpeed: currentConditions.windspeed,
-    uvIndex: currentConditions.uvindex,
-    humidity: currentConditions.humidity,
-    rainChance: currentConditions.precipprob,
-    sunrise: currentConditions.sunrise,
-    sunset: currentConditions.sunset,
-    error: false,
-  };
-  return {
-    paths,
-  };
-}
-
-export function handleTemperatureToggle() {
+function handleTemperatureToggle() {
   currentScale.textContent = tempCheckbox.checked ? '°C' : '°F';
 
   convertTemp(temp.dataset.value, 'fahrenheit', 'celcius');
@@ -98,7 +94,13 @@ export function handleTemperatureToggle() {
   convertFeelsLike(feels.dataset.value, 'fahrenheit', 'celcius');
 }
 
-function convertTemperature(temp, scale) {
+// ========================
+// PRIVATE HELPERS
+// ========================
+
+// Temperature conversion
+
+function convertTemperatureScale(temp, scale) {
   if (scale === 'fahrenheit') {
     const newTemp = Math.round((temp - 32) / 1.8);
     return newTemp;
@@ -113,24 +115,45 @@ function convertTemperature(temp, scale) {
 
 function convertTemp(value, scaleIfTrue, scaleIfFalse) {
   temp.textContent = tempCheckbox.checked
-    ? `${convertTemperature(value, scaleIfTrue)}°C`
-    : `${convertTemperature(value, scaleIfFalse)}°F`;
+    ? `${convertTemperatureScale(value, scaleIfTrue)}°C`
+    : `${convertTemperatureScale(value, scaleIfFalse)}°F`;
 
   temp.dataset.value = tempCheckbox.checked
-    ? convertTemperature(value, scaleIfTrue)
-    : convertTemperature(value, scaleIfFalse);
+    ? convertTemperatureScale(value, scaleIfTrue)
+    : convertTemperatureScale(value, scaleIfFalse);
 }
 
 function convertFeelsLike(value, scaleIfTrue, scaleIfFalse) {
   feels.textContent = tempCheckbox.checked
-    ? `Feels like: ${convertTemperature(value, scaleIfTrue)}°C`
-    : `Feels like: ${convertTemperature(value, scaleIfFalse)}°F`;
+    ? `Feels like: ${convertTemperatureScale(value, scaleIfTrue)}°C`
+    : `Feels like: ${convertTemperatureScale(value, scaleIfFalse)}°F`;
 
   feels.dataset.value = tempCheckbox.checked
-    ? convertTemperature(value, scaleIfTrue)
-    : convertTemperature(value, scaleIfFalse);
+    ? convertTemperatureScale(value, scaleIfTrue)
+    : convertTemperatureScale(value, scaleIfFalse);
 }
 
+// Toggle UI elements visibility
+function toggleErrorMsg(boolean) {
+  errorMsg.style.display = boolean ? 'block' : 'none';
+
+  togglePageSections(boolean);
+}
+
+function toggleLoadingSpinner(stillWating) {
+  loadingContainer.style.display = stillWating ? 'grid' : 'none';
+
+  togglePageSections(stillWating);
+}
+
+function togglePageSections(boolean) {
+  overviewContainer.style.display = boolean ? 'none' : 'grid';
+  detailsContainer.style.display = boolean ? 'none' : 'grid';
+
+  body.style.alignItems = boolean ? 'start' : 'center';
+}
+
+// Find correct icon for the weather condition
 function findCorrectIcon(icon) {
   const simpleIcons = {
     'clear-day': 'emojione:sun',
@@ -153,23 +176,4 @@ function findCorrectIcon(icon) {
   const iconPath = simpleIcons[icon] || 'emojione:zzz';
 
   return iconPath;
-}
-
-function toggleErrorMsg(boolean) {
-  errorMsg.style.display = boolean ? 'block' : 'none';
-
-  togglePageSections(boolean);
-}
-
-function toggleLoadingSpinner(stillWating) {
-  loadingContainer.style.display = stillWating ? 'grid' : 'none';
-
-  togglePageSections(stillWating);
-}
-
-function togglePageSections(boolean) {
-  overviewContainer.style.display = boolean ? 'none' : 'grid';
-  detailsContainer.style.display = boolean ? 'none' : 'grid';
-
-  body.style.alignItems = boolean ? 'start' : 'center';
 }
