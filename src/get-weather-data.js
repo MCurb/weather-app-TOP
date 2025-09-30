@@ -42,11 +42,9 @@ async function getWeatherData(location) {
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodedLocation}?unitGroup=us&key=U5HZWJR4494LWKE6UNTJY7PK2&contentType=json`,
     );
     const dataContent = await data.json();
-    console.log(dataContent);
 
     return dataContent;
-  } catch (error) {
-    console.log(`There was an error ${error}`);
+  } catch {
     return undefined;
   }
 }
