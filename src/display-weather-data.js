@@ -40,34 +40,35 @@ const sunsetTime = document.querySelector('.sunset-data');
 // PUBLIC API (exports)
 // ========================
 
-export async function displayData() {
+export function displayData() {
   toggleLoadingSpinner(true);
-  const { paths } = await takeTheDataINeed(locationSearch);
+  takeTheDataINeed(locationSearch).then((result) => {
+    const paths = result.paths;
+    if (paths.error) {
+      toggleErrorMsg(true);
+      return;
+    }
+
+    toggleErrorMsg(false);
+
+    //Weather Overview
+    locationAddress.textContent = paths.location;
+
+    convertTemp(paths.temperature, 'fahrenheit', 'do-not-convert');
+    convertFeelsLike(paths.feelsLike, 'fahrenheit', 'do-not-convert');
+
+    condition.textContent = paths.conditionStatus;
+    conditionIcon.icon = findCorrectIcon(paths.conditionsIcon);
+
+    //Weather Details
+    wind.textContent = `${paths.windSpeed} mph`;
+    uv.textContent = paths.uvIndex;
+    humidityData.textContent = `${paths.humidity}%`;
+    rain.textContent = `${paths.rainChance}%`;
+    sunriseTime.textContent = paths.sunrise;
+    sunsetTime.textContent = paths.sunset;
+  });
   toggleLoadingSpinner(false);
-
-  if (paths.error) {
-    toggleErrorMsg(true);
-    return;
-  }
-
-  toggleErrorMsg(false);
-
-  //Weather Overview
-  locationAddress.textContent = paths.location;
-
-  convertTemp(paths.temperature, 'fahrenheit', 'do-not-convert');
-  convertFeelsLike(paths.feelsLike, 'fahrenheit', 'do-not-convert');
-
-  condition.textContent = paths.conditionStatus;
-  conditionIcon.icon = findCorrectIcon(paths.conditionsIcon);
-
-  //Weather Details
-  wind.textContent = `${paths.windSpeed} mph`;
-  uv.textContent = paths.uvIndex;
-  humidityData.textContent = `${paths.humidity}%`;
-  rain.textContent = `${paths.rainChance}%`;
-  sunriseTime.textContent = paths.sunrise;
-  sunsetTime.textContent = paths.sunset;
 }
 
 export function setupAppListeners() {
