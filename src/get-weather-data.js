@@ -37,7 +37,8 @@ export async function takeTheDataINeed(locationSearch) {
 // Fetch weather data from the API
 async function getWeatherData(location) {
   try {
-    const encodedLocation = encodeLocation(location);
+    //Handle spaces and special characters
+    const encodedLocation = encodeURIComponent(location);
     const data = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodedLocation}?unitGroup=us&key=U5HZWJR4494LWKE6UNTJY7PK2&contentType=json`,
     );
@@ -47,10 +48,4 @@ async function getWeatherData(location) {
   } catch {
     return undefined;
   }
-}
-
-// Encode URI component to handle spaces and special characters
-function encodeLocation(locationSearch) {
-  const encodedLocation = decodeURIComponent(locationSearch);
-  return encodedLocation;
 }
